@@ -4,7 +4,7 @@ import pandas as pd
 import time
 import re
 from zenrows import ZenRowsClient
-
+from datetime import date
 
 # RENTALS 
 # Set the user-agent header
@@ -57,6 +57,11 @@ for web_url in web_urls:
         xe_webpage=response.text
     
         soup=BeautifulSoup(xe_webpage,"html.parser")
+
+        with open (f"./soups/soup_rentals{date.today}.txt",'a') as file:
+            file.write(str(soup)+ f"\n")
+
+
         print('OK')
     except:
         print(f"No response for {web_url}")

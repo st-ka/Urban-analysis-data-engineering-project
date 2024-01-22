@@ -2,12 +2,17 @@
 from bs4 import BeautifulSoup
 import pandas as pd
 import time
+from datetime import date
 import re
 from zenrows import ZenRowsClient
 
 #SALES
+# Set the user-agent header
+headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
+
 
 # Create a proxy client
+client = ZenRowsClient("a45285ef2974d1cf4c9f103296a7835b19844643")
 BASE_URL_Sales='https://www.xe.gr/property/results?transaction_name=buy&item_type=re_residence&geo_place_ids%5B%5D=ChIJ8UNwBh-9oRQR3Y1mdkU1Nic'
 response_Sales = client.get(BASE_URL_Sales, headers=headers)
 soup_Sales=BeautifulSoup(response_Sales.content,"html.parser")
@@ -52,6 +57,11 @@ for web_url in web_urls_Sales:
         xe_webpage=response.text
     
         soup=BeautifulSoup(xe_webpage,"html.parser")
+
+        with open(f"./soups/soup_sales{date.today()}.txt",'a') as file:
+            file.write(str(soup))
+
+
         print('OK')
     except:
         print(f"No response for {web_url}")
