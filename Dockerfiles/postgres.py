@@ -14,6 +14,7 @@ sql = """
   URL VARCHAR(50),
   neighbourhood VARCHAR(50),
   price per sqm int,
+  date_imported date
 );
 """
 
@@ -23,9 +24,9 @@ sql COPY xrysi_rentals FROM f"xe_rentals_{date.today()}.csv" DELIMITER ',' CSV H
 with engine.connect().execution_options(autocommit=True) as conn:
     query = conn.execute(text(sql))
 
-# insert the dataframe data to 'tennis' SQL table
+# insert the dataframe data to 'xrysi_rentals' SQL table
 with engine.connect().execution_options(autocommit=True) as conn:
-    df.to_sql('tennis', con=conn, if_exists='append', index= False)
+    df.to_sql(', con=conn, if_exists='append', index= False)
 
 #optional
 print(pd.read_sql_query("""
