@@ -1,0 +1,34 @@
+version: '3'   
+services:
+  postgresdb:
+    image: postgres
+    container_name: postgres-db
+    networks: # we add network
+      - postgres
+    ports:
+      - 5432:5432 
+    environment:
+      - POSTGRES_PASSWORD=docker 
+    volumes:
+      - pgadmin:/var/lib/postgresql/data 
+                                         
+  pgadmin:
+    image: dpage/pgadmin4
+    networks:  # we add network
+      - postgres
+    ports: 
+      - 82:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=user@domain.com 
+      - PGADMIN_DEFAULT_PASSWORD=SuperSecret  
+    depends_on:
+      - postgresdb
+
+volumes:
+  pgadmin:
+
+# we connect them on a network manually and five an easy, memorable name to the network so that we can connect
+# the scraper container as well on the same network, so that all containers can communicate
+networks:
+  postgres:
+    name: postgres
