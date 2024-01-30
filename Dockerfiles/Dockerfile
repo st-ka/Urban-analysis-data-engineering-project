@@ -1,5 +1,5 @@
 # set the base image with specific tag/version
-FROM python:3.10
+FROM python:3.9
 
 # update all packages, install cron module and the text editors vim and nano 
 RUN apt-get update && apt-get -y install cron 

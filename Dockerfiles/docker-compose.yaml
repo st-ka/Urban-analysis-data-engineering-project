@@ -1,34 +1,42 @@
-version: '3'   
+version: '3'
+networks:
+    my_network:
 services:
   postgresdb:
     image: postgres
+    restart: always
     container_name: postgres-db
-    networks: # we add network
-      - postgres
     ports:
-      - 5432:5432 
+      - 5432:5432
     environment:
       - POSTGRES_PASSWORD=docker 
     volumes:
-      - pgadmin:/var/lib/postgresql/data 
-                                         
+      - pgadmin:/var/lib/postgresql/data
+    networks:
+      - my_network
+
   pgadmin:
     image: dpage/pgadmin4
-    networks:  # we add network
-      - postgres
+    restart: always
     ports: 
-      - 82:80
+      - 80:80
     environment:
-      - PGADMIN_DEFAULT_EMAIL=user@domain.com 
-      - PGADMIN_DEFAULT_PASSWORD=SuperSecret  
+      - PGADMIN_DEFAULT_EMAIL=user@domain.com
+      - PGADMIN_DEFAULT_PASSWORD=SuperSecret
     depends_on:
       - postgresdb
+    networks:
+      - my_network
+
+  webscraper:
+    build: .
+    volumes:
+      - ./csv:/app/csv
+    depends_on:
+      - postgresdb
+    networks:
+      - my_network
+
 
 volumes:
   pgadmin:
-
-# we connect them on a network manually and five an easy, memorable name to the network so that we can connect
-# the scraper container as well on the same network, so that all containers can communicate
-networks:
-  postgres:
-    name: postgres
