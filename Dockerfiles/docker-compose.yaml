@@ -15,18 +15,18 @@ services:
     networks:
       - my_network
 
-  pgadmin:
-    image: dpage/pgadmin4
-    restart: always
-    ports: 
-      - 80:80
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=user@domain.com
-      - PGADMIN_DEFAULT_PASSWORD=SuperSecret
-    depends_on:
-      - postgresdb
-    networks:
-      - my_network
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   restart: always
+  #   ports: 
+  #     - 80:80
+  #   environment:
+  #     - PGADMIN_DEFAULT_EMAIL=user@domain.com
+  #     - PGADMIN_DEFAULT_PASSWORD=SuperSecret
+  #   depends_on:
+  #     - postgresdb
+  #   networks:
+  #     - my_network
 
   webscraper:
     build: .
