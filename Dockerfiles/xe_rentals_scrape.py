@@ -150,7 +150,7 @@ def main():
     if not os.path.isfile('/app/csv/'):
        df.to_csv(f'/app/csv/xe_rentals.csv',index=False)
     else: 
-       df.to_csv(f'/app/csv/xe_rentals.csv', mode='w', index=False, header=False)
+       df.to_csv(f'/app/csv/xe_rentals.csv', mode='a', index=False, header=False)
 
 
     time.sleep(1)
@@ -180,11 +180,6 @@ def main():
     );
     """
 
-    #sql COPY xrysi_rentals FROM f"xe_rentals_{date.today()}.csv" DELIMITER ',' CSV HEADER;
-
-    # execute the 'sql' query
-    #with engine.connect().execution_options(autocommit=True) as conn:
-     #   conn.execute(text(sql))
 
     # insert the dataframe data to 'xrysi_rentals' SQL table
     with engine.connect().execution_options(autocommit=True) as conn:
@@ -198,6 +193,15 @@ def main():
             'construction_year': sqlalchemy.types.INT(),
             'date_imported': sqlalchemy.types.DATE()})
 
+
+
+
+
+    #sql COPY xrysi_rentals FROM f"xe_rentals_{date.today()}.csv" DELIMITER ',' CSV HEADER;
+
+    # execute the 'sql' query
+    #with engine.connect().execution_options(autocommit=True) as conn:
+     #   conn.execute(text(sql))
 #    #optional
 #    print(pd.read_sql_query("""
 #    select * from xrysi_rentals
